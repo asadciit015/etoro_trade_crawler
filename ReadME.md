@@ -10,8 +10,6 @@
 #Task 3:
 	The script identifies a bought stock in task 2, monitors it until it is closed. Then it opens a selling position on that same stock.
 
-#Last milestone:
-	After rigorous successful testing, the bot shall be uploaded to amazon ec2. And it will be tested on the platform. After successful tests
 
 #Notes:
     1. The bot should be able to login without failure. (Sometimes the persistent cookie of etoro fails and it logs out the user or reject a login) if the login is rejected, the bot should immediately notify the end user of the problem.
