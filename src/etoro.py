@@ -14,6 +14,7 @@ from selenium.webdriver.common.proxy import Proxy, ProxyType
 from selenium.webdriver.remote.command import Command
 from selenium.webdriver.support import expected_conditions as EC
 from seleniumwire import webdriver
+from selenium.webdriver.chrome.options import Options
 from seleniumrequests import Firefox, Chrome
 from selenium.webdriver.common.action_chains import ActionChains
 from crawler_logging import logger
@@ -43,51 +44,55 @@ class Etoro():
 	def __buildDriver__(self, driver_options):
 
 
-		# Ubuntu
-		if (os.name == 'posix'):
-			chromedriver = 'chromedriver'
+		# # Ubuntu
+		# if (os.name == 'posix'):
+		# 	chromedriver = 'chromedriver'
 
-		# Windows
-		if (os.name == 'nt'):
-			chromedriver = 'chromedriver.exe'
+		# # Windows
+		# if (os.name == 'nt'):
+		# 	chromedriver = 'chromedriver.exe'
 
-		if chromedriver:
+		# if chromedriver:
 
-			if config.DRIVER_NAME == 'Chrome':
-				logger.info("Using Chrome Driver ...")
-				options = webdriver.ChromeOptions()
-				options.add_experimental_option("excludeSwitches", ["enable-automation"])
-				options.add_experimental_option('useAutomationExtension', False)
-				options.add_experimental_option('w3c', False)
+		# 	if config.DRIVER_NAME == 'Chrome':
+		# 		logger.info("Using Chrome Driver ...")
+		# 		options = webdriver.ChromeOptions()
+		# 		options.add_experimental_option("excludeSwitches", ["enable-automation"])
+		# 		options.add_experimental_option('useAutomationExtension', False)
+		# 		options.add_experimental_option('w3c', False)
 
-				for driver_option in driver_options:
-					# if "--proxy-server" in driver_option:
-					# 	print(f"\nADDING PROXY: [{driver_option}]\n")
-					options.add_argument(driver_option)
+		# 		for driver_option in driver_options:
+		# 			# if "--proxy-server" in driver_option:
+		# 			# 	print(f"\nADDING PROXY: [{driver_option}]\n")
+		# 			options.add_argument(driver_option)
 				
-				capabilities = None
-				if config.PROXY:
-					# print(f"\nADDING PROXY: [{config.PROXY}]\n")
-					# prox = Proxy()
-					# prox.proxy_type = ProxyType.MANUAL
-					# prox.http_proxy = config.PROXY
-					# # prox.socks_proxy = config.PROXY
-					# prox.ssl_proxy = config.PROXY
+		# 		capabilities = None
+		# 		if config.PROXY:
+		# 			# print(f"\nADDING PROXY: [{config.PROXY}]\n")
+		# 			# prox = Proxy()
+		# 			# prox.proxy_type = ProxyType.MANUAL
+		# 			# prox.http_proxy = config.PROXY
+		# 			# # prox.socks_proxy = config.PROXY
+		# 			# prox.ssl_proxy = config.PROXY
 
-					capabilities = webdriver.DesiredCapabilities.CHROME
-					capabilities['loggingPrefs'] = { 'performance':'ALL' }
-					# prox.add_to_capabilities(capabilities)
+		# 			capabilities = webdriver.DesiredCapabilities.CHROME
+		# 			capabilities['loggingPrefs'] = { 'performance':'ALL' }
+		# 			# prox.add_to_capabilities(capabilities)
 				
-				if capabilities:
-					self.driver =  webdriver.Chrome(desired_capabilities=capabilities, options=options)
-					# self.driver = config.DRIVER_NAME(desired_capabilities=capabilities, options=options)
-				else:
-					self.driver =  webdriver.Chrome(chromedriver, options=options)
-					# self.driver =  config.DRIVER_NAME(chromedriver, options=options)
+		# 		if capabilities:
+		# 			self.driver =  webdriver.Chrome(desired_capabilities=capabilities, options=options)
+		# 			# self.driver = config.DRIVER_NAME(desired_capabilities=capabilities, options=options)
+		# 		else:
+		# 			self.driver =  webdriver.Chrome(chromedriver, options=options)
+		# 			# self.driver =  config.DRIVER_NAME(chromedriver, options=options)
 
-			else:
-				logger.info("Using Firefox Driver ...")
-				self.driver =  webdriver.Firefox()
+		# 	else:
+		# 		logger.info("Using Firefox Driver ...")
+		# 		self.driver =  webdriver.Firefox()
+
+		options = Options()
+		options.headless = True
+		self.driver = webdriver.Chrome(chrome_options=options)
 
 		self.min_wait = WebDriverWait(self.driver, 5)
 		self.max_wait = WebDriverWait(self.driver, 20)
@@ -250,14 +255,14 @@ class Etoro():
 						while 1:
 							for i in range(autoattempts):
 								elems = _get_elems()
-								if functools.reduce(lambda x, y: x or y, [elem.is_displayed() for elem in elems]):
+								if functools.reduce(lambda x, y: x or y, [elem.is_enabled() for elem in elems]):
 									return elems
 								else:
-									print('{} displayed: {}'.format(css_selector, elems[0].is_displayed()))
+									print('{} enabled: {}'.format(css_selector, elems[0].is_enabled()))
 									print('Autoretry during {} seconds'.format(max_timeout / 2))
 									sleep(max_timeout)
 									continue
-							print('{0} not displayed'.format(css_selector))
+							print('{0} not enabled'.format(css_selector))
 							print('Elems not found. Return False')
 							s = 'Q'  # hard coded Quit
 							if re.findall('(?i)[QqЙй]', s):
