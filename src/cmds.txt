@@ -1,0 +1,12 @@
+
+
+
+from main import *
+
+self = Etoro()
+
+self.login()
+
+self.current_account_type
+
+self.switch_account(to_demo=True)

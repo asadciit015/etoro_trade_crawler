@@ -1,0 +1,39 @@
+*.py[co]
+*.DS_*
+# Packages
+*.egg
+*.egg-info
+*/chromedriver.exe
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+*.csv
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+#Translations
+*.mo
+
+#Mr Developer
+venv
+*.pyc
+build
+
+#pychrm
+.idea
+
+# ignore custom files and folders
+*/__pycache__/
+*/ChromeProfile/
+*/temp/
