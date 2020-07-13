@@ -423,15 +423,20 @@ class Etoro():
 
 	def close_popup(self):
 		if self.els_css('a[automation-id="close-dialog-btn"]'):
-			self.el_css('a[automation-id="close-dialog-btn"]').click()
+			self.actions.move_to_element(
+				self.el_css('a[automation-id="close-dialog-btn"]')).click().perform()
+
 		if self.els_css('a[class="pre-push-popup-button sprite close"]'):
-			self.el_css('a[class="pre-push-popup-button sprite close"]').click()
+			self.actions.move_to_element(
+				self.el_css('a[class="pre-push-popup-button sprite close"]')).click().perform()
 
 			
 
 	@property
 	def toggle_account_switcher(self):
-		self.el_css('et-select[automation-id="menu-layout-link-mode"]').click()
+		self.actions.move_to_element(
+			self.el_css('et-select[automation-id="menu-layout-link-mode"]')).click().perform()
+		
 
 
 	@property
@@ -453,8 +458,10 @@ class Etoro():
 			self.toggle_account_switcher
 
 			if self.els_css('et-select-body-option'):
-				self.els_css('et-select-body-option')[-1].click()
-				self.els_css('.toggle-account-button')[0].click()
+				self.actions.move_to_element(
+					self.els_css('et-select-body-option')[-1]).click().perform()
+				self.actions.move_to_element(
+					self.els_css('.toggle-account-button')[0]).click().perform()
 
 			logger.info("Switched to <VIRTUAL Account>")
 
@@ -463,8 +470,10 @@ class Etoro():
 			self.toggle_account_switcher
 			
 			if self.els_css('et-select-body-option'):
-				self.els_css('et-select-body-option')[0].click()
-				self.els_css('.toggle-account-button')[0].click()
+				self.actions.move_to_element(
+					self.els_css('et-select-body-option')[0]).click().perform()
+				self.actions.move_to_element(
+					self.els_css('.toggle-account-button')[0]).click().perform()
 
 			logger.info("Switched to <REAL Account>")
 
@@ -580,7 +589,8 @@ class Etoro():
 		if url not in self.driver.current_url:
 			self.openUrl(url, title_display=f"Going to Trade <{Instrument}> IsBuy <{IsBuy}>")
 
-		self.wait_and_get_elems('div[automation-id="trade-button"]')[0].click()
+		self.actions.move_to_element(
+			self.wait_and_get_elems('div[automation-id="trade-button"]')[0]).click().perform()
 
 		if self.wait_and_get_elems(
 			'a[href="https://www.etoro.com/trading/market-hours-and-events/"]')[0].text == 'MARKET CLOSED':
@@ -589,33 +599,35 @@ class Etoro():
 			return False , res
 
 		if IsBuy:
-			self.wait_and_get_elems('button[ng-class="{active: model.isBuy }"]')[0].click()
+			self.actions.move_to_element(
+				self.wait_and_get_elems('button[ng-class="{active: model.isBuy }"]')[0]
+			).click().perform()
 		else:
 			#sell
-			self.wait_and_get_elems('button[ng-class="{active: !model.isBuy }"]')[0].click()
+			self.actions.move_to_element(
+				self.wait_and_get_elems('button[ng-class="{active: !model.isBuy }"]')[0]
+			).click().perform()
 
 		#select leverage:
 		self.wait_and_get_elems(
 			'div[data-etoro-automation-id="execution-leverage-tab-title-value"]')[0].click()
 		leverages = self.wait_and_get_elems('a[ng-repeat="leverage in model.displayLeverages"]')
-		leverages[-1].click() # select max leverage value
+		self.actions.move_to_element(leverages[-1]).click().perform() # select max leverage value
 
 		if config.Trailing_Stop_Loss:
-			self.el_css(
+			self.actions.move_to_element(self.el_css(
 				"div[data-etoro-automation-id='execution-stop-loss-tab-title-label']"
-			).click()
+			)).click().perform()
 
-			self.el_css(
+			self.actions.move_to_element(self.el_css(
 				"input[data-etoro-automation-id='execution-stop-loss-editing-tsl-check-box']"
-			).click()
-
+			)).click().perform()
 
 			if self.is_on_rate_view:
 				#switch to amount view 
-				self.wait_and_get_elems(
+				self.actions.move_to_element(self.wait_and_get_elems(
 					"a[data-etoro-automation-id='execution-stop-loss-amount-editing-switch-to-rate-button']"
-				)[0].click()
-
+				)[0]).click().perform()
 
 			stoploss_input = self.els_css("input[data-etoro-automation-id='input']")[-1]
 			stoploss_input.clear()
@@ -631,7 +643,11 @@ class Etoro():
 			
 
 		#click trade button
-		self.wait_and_get_elems('button[data-etoro-automation-id="execution-open-position-button"]')[0].click()
+		self.actions.move_to_element(
+			self.wait_and_get_elems(
+				'button[data-etoro-automation-id="execution-open-position-button"]'
+		)[0]).click().perform()
+
 		res = f"Trade Opened for <{Instrument}> IsBuy:{IsBuy} at {datetime.now()}"
 		logger.info(res)
 		
