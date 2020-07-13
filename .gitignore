@@ -37,3 +37,4 @@ build
 */__pycache__/
 */ChromeProfile/
 */temp/
+*server_key/
