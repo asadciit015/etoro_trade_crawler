@@ -299,7 +299,7 @@ class Etoro():
 	def get_loggedin_username(self):
 		try:
 			return (
-				self.wait_and_get_elems(config.loggedin_profile_elem)[0].text
+				self.wait_and_get_elems(config.loggedin_profile_elem)[0].get_attribute("href").split("/")[-1]
 			)
 		except Exception as e:
 			return False
