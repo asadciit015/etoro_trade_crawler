@@ -396,7 +396,7 @@ class Etoro():
 			)
 			driver_status = self.get_status_of_driver()
 
-			if driver_status is "Dead":
+			if driver_status == "Dead":
 				logger.error("Cannot Login ([Error:: '<Driver Not Alive>'")
 				return False
 			# logger.info('Driver getting url: {}'.format(config.URL))
