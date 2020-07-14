@@ -20,21 +20,18 @@ if os.path.exists(closing_prices_dir)==False:	os.mkdir(closing_prices_dir)
 today_prices_dir = os.path.join(temp_dir, 'today_prices')
 if os.path.exists(today_prices_dir)==False:	os.mkdir(today_prices_dir)
 
-
 markethourscsv_file = os.path.join(temp_dir, 'market-hours-and-events.csv')
 
-
-# DRIVER_PATH = r'/home/asad/code/UPWORK/etoro_trade_crawler/chromedriver')
 
 DRIVER_NAME = 'Chrome'
 
 
 DRIVER_OPTIONS = [
-	'--disable-gpu',
-	'--always-authorize-plugins',
+	# '--disable-gpu',
+	# '--always-authorize-plugins',
 	'--user-data-dir=./ChromeProfile',
-	'--remote-debugging-port=5000',
-	'--profile-directory=Default',
+	# '--remote-debugging-port=5000',
+	'--profile-directory=Etoro',
 	# '--disable-geolocation',
 	# '--disable-notifications',
 	# '--disable-plugins-discovery',
@@ -47,9 +44,9 @@ DRIVER_OPTIONS = [
 	# '--disable-extensions',
 	# '--useAutomationExtension=false',
 	# '--disable-infobars'
-	'--disable-dev-shm-usage',
-	'--headless',
-	'--no-sandbox'
+	# '--disable-dev-shm-usage',
+	# '--headless',
+	# '--no-sandbox'
 ]
 
 # add proxy here:
