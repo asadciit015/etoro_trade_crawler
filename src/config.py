@@ -34,11 +34,11 @@ DRIVER_NAME = 'Chrome'
 
 
 DRIVER_OPTIONS = [
-	# '--disable-gpu',
-	# '--always-authorize-plugins',
+	'--disable-gpu',
+	'--always-authorize-plugins',
 	'--user-data-dir=./ChromeProfile',
 	# '--remote-debugging-port=5000',
-	'--profile-directory=Etoro',
+	'--profile-directory=Default',
 	# '--disable-geolocation',
 	# '--disable-notifications',
 	# '--disable-plugins-discovery',
@@ -46,10 +46,10 @@ DRIVER_OPTIONS = [
 	# '--disable-session-crashed-bubble',                
 	# '--disable-save-password-bubble',
 	# '--disable-permissions-bubbles',
-	# '--bwsi',
+	'--bwsi',
 	# '--incognito',
-	# '--disable-extensions',
-	# '--useAutomationExtension=false',
+	'--disable-extensions',
+	'--useAutomationExtension=false',
 	# '--disable-infobars'
 	# '--disable-dev-shm-usage',
 	# '--headless',
