@@ -7,7 +7,6 @@ temp_dir = os.path.join(root_dir, 'temp')
 if os.path.exists(temp_dir)==False:	os.mkdir(temp_dir)
 
 page_source_file = os.path.join(temp_dir, 'page_source.html')
-instruments_file = os.path.join(temp_dir, 'instruments.json')
 logindata_file = os.path.join(temp_dir, 'logindata.json')
 closed_trade_history_file = os.path.join(temp_dir, 'closed_trade_history.json')
 last_trade_done_file = os.path.join(temp_dir, 'last_trades_done.json')
@@ -20,7 +19,15 @@ if os.path.exists(closing_prices_dir)==False:	os.mkdir(closing_prices_dir)
 today_prices_dir = os.path.join(temp_dir, 'today_prices')
 if os.path.exists(today_prices_dir)==False:	os.mkdir(today_prices_dir)
 
-markethourscsv_file = os.path.join(temp_dir, 'market-hours-and-events.csv')
+
+
+
+# default directory configurations
+default_dir = os.path.join(root_dir, 'default')
+if os.path.exists(default_dir)==False:	os.mkdir(default_dir)
+
+instruments_file = os.path.join(default_dir, 'instruments.json')
+markethourscsv_file = os.path.join(default_dir, 'market-hours-and-events.csv')
 
 
 DRIVER_NAME = 'Chrome'

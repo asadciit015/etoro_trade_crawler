@@ -297,34 +297,34 @@ def find_instrument_by_symbol(symbol, path=config.instruments_file):
 
 
 if '__main__' == __name__:
-    o = {'PositionID': 1782205451,
-         'CID': 16393103,
-         'OpenDateTime': '2020-07-13T10:24:52.203Z',
-         'OpenRate': 9219.32,
-         'InstrumentID': 100000,
-         'IsBuy': False,
-         'TakeProfitRate': 0.01,
-         'StopLossRate': 11502.32,
-         'MirrorID': 0,
-         'ParentPositionID': 0,
-         'Amount': 5100.0,
-         'Leverage': 2,
-         'OrderID': 0,
-         'Units': 1.106372,
-         'TotalFees': 0.0,
-         'InitialAmountInDollars': 5100.0,
-         'IsTslEnabled': True,
-         'StopLossVersion': 1,
-         'IsSettled': False,
-         'RedeemStatusID': 0,
-         'InitialUnits': 1.106372,
-         'IsPartiallyAltered': False,
-         'UnitsBaseValueDollars': 5100.0,
-         'IsDiscounted': False}
+    # o = {'PositionID': 1782205451,
+    #      'CID': 16393103,
+    #      'OpenDateTime': '2020-07-13T10:24:52.203Z',
+    #      'OpenRate': 9219.32,
+    #      'InstrumentID': 100000,
+    #      'IsBuy': False,
+    #      'TakeProfitRate': 0.01,
+    #      'StopLossRate': 11502.32,
+    #      'MirrorID': 0,
+    #      'ParentPositionID': 0,
+    #      'Amount': 5100.0,
+    #      'Leverage': 2,
+    #      'OrderID': 0,
+    #      'Units': 1.106372,
+    #      'TotalFees': 0.0,
+    #      'InitialAmountInDollars': 5100.0,
+    #      'IsTslEnabled': True,
+    #      'StopLossVersion': 1,
+    #      'IsSettled': False,
+    #      'RedeemStatusID': 0,
+    #      'InitialUnits': 1.106372,
+    #      'IsPartiallyAltered': False,
+    #      'UnitsBaseValueDollars': 5100.0,
+    #      'IsDiscounted': False}
 
-    print(addLastOrderedTrade(o))
+    # print(addLastOrderedTrade(o))
     # print( json.dumps( lastOrderedTrade(), indent=2) )
-    # print( json.dumps( find_instrument_by_id(1), indent=2) )
+    print( json.dumps( find_instrument_by_id(1), indent=2) )
 
 
     # _lastOrderedTrade = lastOrderedTrade(isBuy=True)[0]
