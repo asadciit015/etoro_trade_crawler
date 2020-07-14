@@ -249,6 +249,9 @@ def lastOrderedTrade(isBuy=True):
     """ get last ordered trades saved in json file
         isBuy => True then only returns buying trades else returns all
     """
+    if not os.path.exists(config.last_trade_done_file):
+        set_data([], config.last_trade_done_file)
+
     data = json_file_data(config.last_trade_done_file)
     if isBuy:   data = [k for k in data if k["IsBuy"]==True]
 
@@ -323,8 +326,8 @@ if '__main__' == __name__:
     #      'IsDiscounted': False}
 
     # print(addLastOrderedTrade(o))
-    # print( json.dumps( lastOrderedTrade(), indent=2) )
-    print( json.dumps( find_instrument_by_id(1), indent=2) )
+    print( json.dumps( lastOrderedTrade(False), indent=2) )
+    # print( json.dumps( find_instrument_by_id(1), indent=2) )
 
 
     # _lastOrderedTrade = lastOrderedTrade(isBuy=True)[0]
