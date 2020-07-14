@@ -251,10 +251,10 @@ class Etoro():
 						while 1:
 							for i in range(autoattempts):
 								elems = _get_elems()
-								if functools.reduce(lambda x, y: x or y, [elem.is_enabled() for elem in elems]):
+								if functools.reduce(lambda x, y: x or y, [elem.is_displayed() for elem in elems]):
 									return elems
 								else:
-									print('{} enabled: {}'.format(css_selector, elems[0].is_enabled()))
+									print('{} enabled: {}'.format(css_selector, elems[0].is_displayed()))
 									print('Autoretry during {} seconds'.format(max_timeout / 2))
 									sleep(max_timeout)
 									continue
