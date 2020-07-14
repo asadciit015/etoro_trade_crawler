@@ -133,7 +133,7 @@ def sell_trade(etoro_instance):
 			instrumentID = lastOrderedTrade['InstrumentID']
 			instrumentData = helpers.find_instrument_by_id(instrumentID)
 			lastOrderedTrade.update({k:v for k,v in instrumentData.items()
-			 	if k in ("InstrumentDisplayName", "SymbolFull",)})
+				if k in ("InstrumentDisplayName", "SymbolFull",)})
 			instrumentSymbol = instrumentData["SymbolFull"]
 			instrumentDisplayName = instrumentData["InstrumentDisplayName"]
 			instrumentTitle = f"{instrumentSymbol} - {instrumentDisplayName}"
@@ -147,7 +147,7 @@ def sell_trade(etoro_instance):
 
 			closedOrder = helpers.isOrderClosed(
 				positionID, data_list=tradeHistory,
-			 	path=config.closed_trade_history_file)
+				path=config.closed_trade_history_file)
 
 			if not closedOrder:
 				logger.info(
@@ -213,11 +213,18 @@ if __name__ == '__main__':
 	#scheduler = BlockingScheduler({'apscheduler.timezone': 'Europe/London'})
 	scheduler = BlockingScheduler({'apscheduler.timezone': 'UTC'})
 
-	# scheduler.add_job(
-	# 	buy_trade, 'cron', args=[etoro_instance], day_of_week=day_of_week,
-	# 	minute=hour_minute.minute, hour=hour_minute.hour
-	# )
-	scheduler.add_job(buy_trade, 'cron', args=[etoro_instance],
-		minute=9, hour=00)
-	scheduler.add_job(lambda : scheduler.print_jobs(),'interval',seconds=10)
+	# schedular to buy_trade 
+	scheduler.add_job(
+		buy_trade, 'cron', args=[etoro_instance], day_of_week=day_of_week,
+		minute=hour_minute.minute, hour=hour_minute.hour
+	)
+
+	# schedular to sell_trade 
+	scheduler.add_job(sell_trade,'interval',args=[etoro_instance],minutes=20)
+	
+	# scheduler.add_job(buy_trade, 'cron', args=[etoro_instance],
+	# 	minute=9, hour=00)
+	
+	#scheduler to display scheduled jobs
+	scheduler.add_job(lambda : scheduler.print_jobs(),'interval',seconds=20)
 	scheduler.start()
