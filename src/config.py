@@ -10,7 +10,7 @@ page_source_file = os.path.join(temp_dir, 'page_source.html')
 logindata_file = os.path.join(temp_dir, 'logindata.json')
 closed_trade_history_file = os.path.join(temp_dir, 'closed_trade_history.json')
 last_trade_done_file = os.path.join(temp_dir, 'last_trades_done.json')
-
+trade_details_csv = os.path.join(temp_dir, 'Complete Trade Logs.csv')
 # closing_prices directory configurations
 closing_prices_dir = os.path.join(temp_dir, 'closing_prices')
 if os.path.exists(closing_prices_dir)==False:	os.mkdir(closing_prices_dir)

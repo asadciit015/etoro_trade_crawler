@@ -5,6 +5,8 @@ import json
 import csv
 import time
 import config
+import pytz
+from datetime import datetime, date
 from crawler_logging import logger as logging
 
 # DictInt = TypeVar('DictInt', dict, list)
@@ -139,6 +141,31 @@ def set_data(data, path):
         set_data({}, path)
     except json.JSONDecodeError:
         logging.error('Json decode error')
+
+
+def write_csv(trade_type, detail, path=config.trade_details_csv):
+    
+    if trade_type and detail:
+
+        if os.path.exists(path):
+            with open(path, 'r') as f:
+                d_reader = csv.DictReader(f)
+                headers = d_reader.fieldnames
+        else:
+            headers = None
+
+        mode = "w" if not headers else "a+"
+
+        with open(path, mode, newline='') as file:
+            writer = csv.writer(file)
+            if mode == "w":
+                writer.writerow(["Local Time","Utc Time", "Trade Type", "Detail"])
+
+            writer.writerow([
+                datetime.now().strftime('%c'),
+                datetime.now().astimezone(pytz.timezone('UTC')).strftime('%c'),
+                trade_type, detail])
+   
 
 
 def get_login_data_saved(path=config.logindata_file):
@@ -300,6 +327,8 @@ def find_instrument_by_symbol(symbol, path=config.instruments_file):
 
 
 if '__main__' == __name__:
+
+    write_csv('trade_type', 'detail')
     # o = {'PositionID': 1782205451,
     #      'CID': 16393103,
     #      'OpenDateTime': '2020-07-13T10:24:52.203Z',
@@ -326,7 +355,7 @@ if '__main__' == __name__:
     #      'IsDiscounted': False}
 
     # print(addLastOrderedTrade(o))
-    print( json.dumps( lastOrderedTrade(False), indent=2) )
+    # print( json.dumps( lastOrderedTrade(False), indent=2) )
     # print( json.dumps( find_instrument_by_id(1), indent=2) )
 
 

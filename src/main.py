@@ -61,6 +61,8 @@ def get_etoro_instance():
 
 def buy_trade(etoro_instance):
 	try:
+		detail = ""
+
 		# etoro_instance.login()
 		#checking  current balance
 		clientCredit = helpers.clientCredit(login_data=etoro_instance.get_login_info)
@@ -86,13 +88,15 @@ def buy_trade(etoro_instance):
 			buy_trade, buy_trade_res  = etoro_instance.trade(
 				ins=top_market.get("InstrumentId"), IsBuy=True)
 			if buy_trade is False:
-				logger.warning(
+				detail = (
 					f"Couldnot open buying position for: '{top_market.get('SymbolFull')}'"
 					f" reason :\n{buy_trade_res}\n")
+				logger.warning(detail)
 			else:
-				logger.info(
+				detail = (
 					f"Opened buying position for: '{top_market.get('SymbolFull')}'"
 					f" response :\n{buy_trade_res}\n")
+				logger.info(detail)
 				break
 
 		logger.info(f"\nGoing to update User Date ...")
@@ -113,12 +117,17 @@ def buy_trade(etoro_instance):
 		exc_type, exc_obj, exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		err_detail = e, fname, exc_tb.tb_lineno
-		logger.error(f"Following Error occured in buy_trade ::\n{err_detail}\n")
+		detail = f"Following Error occured in buy_trade ::\n{err_detail}\n"
+		logger.error(detail)
+
+	#write trade logs
+	helpers.write_csv("Buying", detail)
 
 
 
 def sell_trade(etoro_instance):
 	try:
+		detail = ""
 		# etoro_instance.login()
 
 		logger.info(f"Going to get last Ordered Trades (For Opening Selling Position ) ...")
@@ -163,13 +172,15 @@ def sell_trade(etoro_instance):
 				ins=instrumentID, IsBuy=False)
 
 			if sell_trade is False:
-				logger.warning(
+				detail = (
 					f"Couldnot open selling position for: '{instrumentTitle}'"
 					f" reason :\n{sell_trade_res}\n")
+				logger.warning(detail)
 			else:
-				logger.info(
+				detail = (
 					f"Opened selling position for: '{instrumentTitle}'"
 					f" response :\n{sell_trade_res}\n")
+				logger.info(detail)
 
 			logger.info(f"\nGoing to update User Date ...")
 			user_data = etoro_instance.get_login_info
@@ -189,7 +200,11 @@ def sell_trade(etoro_instance):
 		exc_type, exc_obj, exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		err_detail = e, fname, exc_tb.tb_lineno
-		logger.error(f"Following Error occured in sell_trade ::\n{err_detail}\n")
+		detail = f"Following Error occured in sell_trade ::\n{err_detail}\n"
+		logger.error(detail)
+
+	#write trade logs
+	helpers.write_csv("Selling", detail)
 
 
 if __name__ == '__main__':
