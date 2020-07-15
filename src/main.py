@@ -235,11 +235,11 @@ if __name__ == '__main__':
 	)
 
 	# schedular to sell_trade 
-	scheduler.add_job(sell_trade,'interval',args=[etoro_instance],minutes=20)
+	scheduler.add_job(sell_trade,'interval',args=[etoro_instance],minutes=35)
 	
 	# scheduler.add_job(buy_trade, 'cron', args=[etoro_instance],
 	# 	minute=9, hour=00)
 	
 	#scheduler to display scheduled jobs
-	scheduler.add_job(lambda : scheduler.print_jobs(),'interval',seconds=20)
+	scheduler.add_job(lambda : scheduler.print_jobs(),'interval',minutes=10)
 	scheduler.start()
