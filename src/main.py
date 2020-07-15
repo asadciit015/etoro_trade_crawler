@@ -84,7 +84,7 @@ def buy_trade(etoro_instance):
 		for t1, top_market in enumerate(top_markets):
 			logger.info(f"\nGoing to open Buying Trade for :\n{top_market}\n")
 			buy_trade, buy_trade_res  = etoro_instance.trade(
-				ins=top_market.get("InstrumentID"), IsBuy=True)
+				ins=top_market.get("InstrumentId"), IsBuy=True)
 			if buy_trade is False:
 				logger.warning(
 					f"Couldnot open buying position for: '{top_market.get('SymbolFull')}'"
