@@ -22,7 +22,7 @@ import config
 import helpers
 
 seleniumwire_logger = logging.getLogger('seleniumwire')
-seleniumwire_logger.setLevel(logging.DEBUG)  # Run selenium wire at ERROR level
+seleniumwire_logger.setLevel(logging.ERROR)  # Run selenium wire at ERROR level
 
 class Etoro():
 	def __init__(self):
@@ -276,11 +276,19 @@ class Etoro():
 					return []
 				continue
 
-	def get_json_response(self, url, tag_name):
+	def get_json_response(self, url, tag_name, retries=1):
+		max_retries = 5
 		self.driver.get(url)
 		res_elems = self.driver.find_elements_by_tag_name(tag_name)
 		res = res_elems[0].text if res_elems else ""
 		if res:
+			if retries <= max_retries and "Something went wrong, please try again" in res:
+				print(
+					'Something went wrong Autoretrying [Retrying'
+					f' {retries}/{max_retries}] ...'
+				)
+				self.delay()
+				return self.get_json_response(url, tag_name, retries+1)
 			return json.loads(res)
 
 
@@ -339,9 +347,9 @@ class Etoro():
 		sleep(config.WAIT_BETWEEN_USER_ACTIONS)
 		password_el.send_keys(config.PASSWORD)
 		sleep(config.WAIT_BETWEEN_USER_ACTIONS)
-		self.actions.move_to_element(remember_me_el).click().perform()
+		remember_me_el.click()
 		sleep(config.WAIT_BETWEEN_USER_ACTIONS)
-		self.actions.move_to_element(login_button_el).click().perform()
+		login_button_el.click()
 		sleep(config.WAIT_BETWEEN_USER_ACTIONS)
 
 
@@ -519,34 +527,12 @@ class Etoro():
 			)
 		return trade_history_list[-1]
 
-	# @property
-	# def get_closing_prices(self):
-	# 	closing_prices_list = [r for r in self.driver.requests
-	# 		if config.Closingprices_Url in r.path
-	# 	]
-	# 	for closing_prices_r in closing_prices_list:
-	# 		closing_prices_file = os.path.join(
-	# 			config.closing_prices_dir,
-	# 			f'{closing_prices_r.response.headers["Date"]}.json'
-	# 		)
-	# 		helpers.set_data(
-	# 			json.loads(closing_prices_r.response.body), closing_prices_file
-	# 		)
+	
+	def get_insights(self):
+		logging.info("getting insights api response ...")
+		return self.get_json_response(
+			config.Insights_Url.format(helpers.device_id()), "pre")
 
-
-	# @property
-	# def get_today_prices(self):
-	# 	self.driver.get(url=config.Todayprices_Url.format(helpers.device_id()))
-	# 	today_prices_list = [r for r in self.driver.requests
-	# 		if "https://www.etoro.com/sapi/candles/quickcharts.json/today" in r.path
-	# 		and "&instruments=" not in r.path
-	# 	]
-	# 	for today_prices_r in today_prices_list:
-	# 		today_prices_file = os.path.join(
-	# 			config.today_prices_dir,
-	# 			f'{today_prices_r.response.headers["Date"]}.json'
-	# 		)
-	# 		helpers.set_data(json.loads(today_prices_r.response.body), today_prices_file)                                                          
 
 	@property
 	def is_on_rate_view(self):

@@ -76,12 +76,13 @@ def buy_trade(etoro_instance):
 		
 		top_markets = analyzer.today_price_analysis(
 			stocks_sort_by=config.stocks_sort_by,
-			open_markets_only=open_markets_only)
-		
-		helpers.set_data(
-			data=top_markets,
-			path=config.temp_dir+f"/top_markets_{'opened' if open_markets_only else 'all'}.json"
-		)
+			time_slots_count=24, 
+			open_markets_only=open_markets_only,
+			time_slots_pick=2)
+
+		# top_markets = analyzer.trade_insights(
+		# 	etoro_instance.get_insights(),
+		#  	open_markets_only=open_markets_only, sort_by="growth")
 
 		for t1, top_market in enumerate(top_markets):
 			logger.info(f"\nGoing to open Buying Trade for :\n{top_market}\n")

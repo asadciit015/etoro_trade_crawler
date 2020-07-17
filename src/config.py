@@ -11,13 +11,6 @@ logindata_file = os.path.join(temp_dir, 'logindata.json')
 closed_trade_history_file = os.path.join(temp_dir, 'closed_trade_history.json')
 last_trade_done_file = os.path.join(temp_dir, 'last_trades_done.json')
 trade_details_csv = os.path.join(temp_dir, 'Complete Trade Logs.csv')
-# closing_prices directory configurations
-closing_prices_dir = os.path.join(temp_dir, 'closing_prices')
-if os.path.exists(closing_prices_dir)==False:	os.mkdir(closing_prices_dir)
-
-# today_prices directory configurations
-today_prices_dir = os.path.join(temp_dir, 'today_prices')
-if os.path.exists(today_prices_dir)==False:	os.mkdir(today_prices_dir)
 
 
 
@@ -84,8 +77,8 @@ Default_Exchange = "Hong Kong Stock Exchange"
 Exchange_Schedular_Minutes = 10
 
 # Market Stocks Prices Sorting in Analyzer
-stocks_sort_by = "MaxIncrease"
-# stocks_sort_by = "MeanIncrease"
+# stocks_sort_by = "MaxIncrease"
+stocks_sort_by = "MeanIncrease"
 analyze_open_markets_only = True
 
 # Stop_Loss Configurations
@@ -107,7 +100,8 @@ Closingprices_Api 	= "https://api.etorostatic.com/sapi/candles/closingprices.jso
 Market_Url 			= "https://www.etoro.com/markets/{}"
 Logindata_Url 		= "https://www.etoro.com/api/logininfo/v1.1/logindata"
 Closingprices_Url   = "https://api.etorostatic.com/sapi/candles/closingprices.json?cv="
-Todayprices_Url 	= "https://www.etoro.com/sapi/candles/quickcharts.json/today/22?client_request_id={}"
+Todayprices_Url 	= "https://www.etoro.com/sapi/candles/quickcharts.json/today/{}?client_request_id={}"
+Insights_Url		= "https://www.etoro.com/sapi/insights/insights/uniques?client_request_id={}"
 Portfolio_Url 	    = "https://www.etoro.com/portfolio"
 TradeHistory_Url 	= "https://www.etoro.com/portfolio/history"
 TradeHistoryApi_Url = f"https://www.etoro.com/sapi/trade-data-{ApiAccountType}/history/private/credit/flat?"
